@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
 
@@ -27,13 +28,30 @@ public class MainActivity extends AppCompatActivity {
     int userFlag = 1; // Next turn User 1 or User 2
     boolean isCellOcuppied = false; // Not need may be
     int clickedCellId;
-    public boolean isWin(){
-        if(clickedCellId%2==0 || clickedCellId == 0){ //угловая или центральная ячейка
-            
-        }else{
+    public int isWin(){
 
-        }
-        return true;
+            if( field[0] + field[1] + field[2] == 3|| //first row
+                    field[0] + field[3] + field[6] == 3|| //first column
+                    field[6] + field[7] + field[8] == 3|| //third row
+                    field[2] + field[5] + field[8] == 3|| //third column
+                    field[1] + field[4] + field[7] == 3|| //second column
+                    field[3] + field[4] + field[5] == 3|| // second row
+                    field[0] + field[4] + field[8] == 3||
+                    field[2] + field[4] + field[6] == 3){
+                return 1;// Player 1 is Win
+            }
+            if( field[0] + field[1] + field[2] == -3||
+                    field[0] + field[3] + field[6] == -3||
+                    field[6] + field[7] + field[8] == -3||
+                    field[2] + field[5] + field[8] == -3||
+                    field[1] + field[4] + field[7] == -3||
+                    field[3] + field[4] + field[5] == -3||
+                    field[0] + field[4] + field[8] == -3||
+                    field[2] + field[4] + field[6] == -3){
+                return -1;// Player 2 is Win
+            }
+
+        return 0;
     }
 
     @Override
@@ -81,10 +99,17 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             cell.setText("O");
                             clickedCellId = (cell.getId())-100000;
-                            field[clickedCellId] = 2;
+                            field[clickedCellId] = -1;
                             userFlag = 1;
                         }
                      //Todo: add isWin()
+                        if(isWin() == 1){
+                            Toast player1 = Toast.makeText(getApplicationContext(),"Player X - is Win", Toast.LENGTH_LONG);
+                            player1.show();
+                        }else if(isWin() == -1){
+                            Toast player2 = Toast.makeText(getApplicationContext(),"Player O - is Win", Toast.LENGTH_LONG);
+                            player2.show();
+                        }
                     }
                 }
             });
