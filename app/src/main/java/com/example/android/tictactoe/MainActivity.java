@@ -26,7 +26,15 @@ public class MainActivity extends AppCompatActivity {
      */
     int userFlag = 1; // Next turn User 1 or User 2
     boolean isCellOcuppied = false; // Not need may be
+    int clickedCellId;
+    public boolean isWin(){
+        if(clickedCellId%2==0 || clickedCellId == 0){ //угловая или центральная ячейка
+            
+        }else{
 
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             int textSize = (int)getResources().getDimension(R.dimen.figureSize);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, width);
             cell.setId(i+100000);
-            cell.setText(String.valueOf(i));
+            cell.setText(" ");
             cell.setGravity(Gravity.CENTER);//выравнивание по центру ячейки
             cell.setBackgroundResource(R.drawable.border);//рамка
             cell.setTextSize(textSize); // фиксированый размер
@@ -64,14 +72,19 @@ public class MainActivity extends AppCompatActivity {
             cell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!("X").contentEquals(cell.getText())||!("O").contentEquals(cell.getText())) {
+                    if((" ").contentEquals(cell.getText())) {
                         if (userFlag == 1) {
                             cell.setText("X");
+                            clickedCellId = (cell.getId())-100000;
+                            field[clickedCellId] = 1;
                             userFlag = 2;
                         } else {
                             cell.setText("O");
+                            clickedCellId = (cell.getId())-100000;
+                            field[clickedCellId] = 2;
                             userFlag = 1;
                         }
+                     //Todo: add isWin()
                     }
                 }
             });
